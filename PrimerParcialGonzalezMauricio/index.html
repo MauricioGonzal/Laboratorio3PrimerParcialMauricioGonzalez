@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Modelo parcial labo III</title>
+	<style>
+	th,td,table{
+		border: 1.5px solid green;
+		border-collapse: collapse;
+		padding: 3px;
+	}
+	table{
+
+		margin: 20px auto;
+	}
+	#div-formabm{
+		margin: 30px auto;
+		width: 20%;
+		padding: 40px;
+		display: none;
+		align-items: center;
+	}
+
+	#form-abm label, #form-abm input{
+		display: block;
+		width: 100%;
+	}
+
+
+	#btn-agregar{
+		display: block;
+		margin: auto;
+		margin-top: 7px;
+		padding: 10px;
+		background: lightgreen;
+		border: none;
+	}
+
+	#btns-formabm{
+		margin-top: 20px;
+		display: flex;
+		justify-content: space-between;	
+	}
+
+	#btns-formabm button{
+		margin: 10px;
+		padding: 10px;
+		background: lightgreen;
+		border: none;
+	}
+
+	#lbl-mostrarcol {
+		display: block;
+		margin-top: 10px;
+	}
+
+	#form-datos{
+		border: 3px solid black;
+		text-align: center;
+		font-size: 20px;
+		padding: 15px;
+		margin: 30px auto;
+		width: 50%;
+	}
+
+	#div-checkbox input{
+		margin: 15px;
+	}
+
+	</style>
+</head>
+<body>
+	<form id='form-datos'>
+		<label style="display: block;">Form Datos</label>
+		<label>Filtrar por:</label>
+		<select id='select-tipopersona'>
+			<option selected>Todos</option>
+			<option>Heroe</option>
+			<option>Villano</option>
+		</select>
+		<label>Calcular Edad Promedio: </label>
+		<input type="text" id='input-promedio' disabled>
+		<button id=btn-calcular>Calcular</button>
+		<div id="div-checkbox">
+		<label id='lbl-mostrarcol'>Mostrar columnas</label>
+		<input type="checkbox" id='id' checked>
+		<label>ID</label>
+		<input type="checkbox" id="nombre" checked>
+		<label>Nombre</label>
+		<input type="checkbox" id="apellido" checked>
+		<label>Apellido</label>
+		<input type="checkbox" id="edad" checked>
+		<label>Edad <br/></label>
+		<input type="checkbox" id="alterEgo" checked>
+		<label>AlterEgo</label>
+		<input type="checkbox" id="ciudad" checked>
+		<label>Ciudad</label>
+		<input type="checkbox" id="publicado" checked>
+		<label>Publicado</label>
+		<input type="checkbox" id="enemigo" checked>
+		<label>Enemigo</label>
+		<input type="checkbox" id="robos" checked>
+		<label>Robos</label>
+		<input type="checkbox" id="asesinatos" checked>
+		<label>Asesinatos</label>
+		</div>
+	</form>
+	<div id='div-table'>
+		
+	</div>
+	<button id='btn-agregar'>Agregar</button>
+	
+	<div id='div-formabm'>
+		<form id='form-abm'>
+		<label>Formulario ABM</label><br>
+		<label>TIPO:</label>
+		<select id='select-tipo'>
+			<option></option>
+			<option>Heroe</option>
+			<option>Villano</option>
+		</select><br>
+		<label>ID:</label>
+		<input type="text" name="id" id='input-id' disabled>
+		<label>Nombre:</label>
+		<input type="text" name="nombre" id='input-nombre' disabled>
+		<label>Apellido:</label>
+		<input type="text" name="apellido" id='input-apellido' disabled>
+		<label>Edad:</label>
+		<input type="text" name="edad" id='input-edad' disabled>
+		<label id='lbl-alterEgo'>AlterEgo:</label>
+		<input type="text" name="alterEgo" id='input-alterEgo' disabled>
+		<label id="lbl-ciudad">Ciudad:</label>
+		<input type="text" name="ciudad" id='input-ciudad' disabled>
+		<label id="lbl-publicado">Publicado:</label>
+		<input type="text" name="publicado" id='input-publicado' disabled>
+		<label id="lbl-enemigo">Enemigo:</label>
+		<input type="text" name="enemigo" id='input-enemigo' disabled>
+		<label id="lbl-robos">Robos:</label>
+		<input type="text" name="robos" id='input-robos' disabled>
+		<label id="lbl-asesinatos">Asesinatos:</label>
+		<input type="text" name="asesinatos" id='input-asesinatos' disabled>
+
+		</form>
+		<div id="btns-formabm">
+		<button id="btn-cancelar">Cancelar</button>
+		<button id="btn-alta">Alta</button>
+		<button id="btn-modificar">Modificar</button>
+		<button id="btn-eliminar">Eliminar</button>
+		</div>
+	</div>
+	<script>
+//clases
+	class Persona{
+		constructor (id,nombre,apellido,edad){
+			this.id = id;
+			this.nombre = nombre;
+			this.apellido = apellido;
+			this.edad = edad;
+		} 
+	}
+
+	class Heroe extends Persona{
+
+		constructor(id,nombre,apellido,edad,alterego,ciudad,publicado){
+			super(id,nombre,apellido,edad);
+			this.alterego = alterego;
+			this.ciudad = ciudad;
+			this.publicado = publicado;
+		}
+	}
+
+	class Villano extends Persona{
+
+		constructor(id, nombre,apellido,edad,enemigo, robos, asesinatos){
+			super(id,nombre,apellido,edad);
+			this.enemigo = enemigo;
+			this.robos = robos;
+			this.asesinatos = asesinatos;
+		}
+	}
+
+//Variables
+	let personas = '[{"id":1, "nombre":"Clark", "apellido":"Kent","edad":45,"alterego":"Superman", "ciudad":"Metropolis","publicado":2002},{"id":2, "nombre":"Bruce", "apellido":"Wayne", "edad":35, "alterego":"Batman","ciudad":"Gotica","publicado":20012},{"id":3, "nombre":"Bart", "apellido":"Alen", "edad":30, "alterego":"Flash", "ciudad":"Central","publicado":2017},{"id":4, "nombre":"Lex", "apellido":"Luthor", "edad":18, "enemigo":"Superman", "robos":500,"asesinatos":7},{"id":5, "nombre":"Harvey", "apellido":"Dent", "edad":20, "enemigo":"Batman", "robos":750,"asesinatos":2},{"id":666, "nombre":"Celina", "apellido":"kyle", "edad":23, "enemigo":"Batman", "robos":25,"asesinatos":1}]';
+	const select_tipo= document.getElementById('select-tipo');
+	const input_id= document.getElementById('input-id');
+	const input_nombre= document.getElementById('input-nombre');
+	const input_apellido= document.getElementById('input-apellido');
+	const input_edad= document.getElementById('input-edad');
+	const input_alterEgo= document.getElementById('input-alterEgo');
+	const input_ciudad= document.getElementById('input-ciudad');
+	const input_publicado= document.getElementById('input-publicado');
+	const input_enemigo= document.getElementById('input-enemigo');
+	const input_robos= document.getElementById('input-robos');
+	const input_asesinatos= document.getElementById('input-asesinatos');
+	const div_formabm = document.getElementById('div-formabm');
+	const form_abm = document.getElementById('form-abm');
+	const form_datos = document.getElementById('form-datos');
+	const btnCalcular = document.getElementById('btn-calcular');
+	const btnAlta = document.getElementById('btn-alta');
+	const btnModificar = document.getElementById('btn-modificar');
+	const btnEliminar = document.getElementById('btn-eliminar');
+	const btnCancelar = document.getElementById('btn-cancelar');
+	const table = document.getElementsByTagName('table')[0];
+	const checkboxes = document.querySelectorAll('input[type=checkbox]');
+	const select_tipopersona = document.getElementById('select-tipopersona');
+	const lbl_alterEgo = document.getElementById('lbl-alterEgo');
+	const lbl_ciudad = document.getElementById('lbl-ciudad');
+	const lbl_publicado = document.getElementById('lbl-publicado');
+	const lbl_enemigo = document.getElementById('lbl-enemigo');
+	const lbl_robos = document.getElementById('lbl-robos');
+	const lbl_asesinatos = document.getElementById('lbl-asesinatos');
+	const tBody = document.createElement('tbody');
+	const tabla = document.createElement('table');
+	const tHead = document.createElement('thead');
+	const trHead = document.createElement('tr');
+	let celdas = document.getElementsByTagName('td');
+	let ordenamiento=0;
+
+//Inicializar objetos
+	personas = JSON.parse(personas);
+	
+	crearTabla();
+
+	personas.forEach((p)=>{
+	if(p.alterego){
+		Object.setPrototypeOf(p, new Heroe(p.id, p.nombre, p.apellido, p.edad,p.alterego ,p.ciudad, p.publicado));
+	}
+	else{
+		Object.setPrototypeOf(p,new Villano(p.id, p.nombre, p.apellido, p.edad,p.enemigo ,p.robos, p.asesinatos));
+	}
+	llenarTabla(p);
+	});
+
+//Eventos generales
+	checkboxes.forEach((c)=>{
+		c.addEventListener('click', (e)=>{
+			var rows = tBody.rows;
+			var retorno = buscarColummnaSeleccionada(e.target.id, trHead);
+
+			for(let i=0; i<rows.length; i++){
+				if(c.checked){
+					rows[i].cells[retorno].style.display = "";
+					trHead.cells[retorno].style.display = '';
+				}
+				else{
+					rows[i].cells[retorno].style.display = 'none';
+					trHead.cells[retorno].style.display = 'none';
+				}
+			}
+		})
+	});
+
+	for(let i=0; i<trHead.cells.length; i++){			
+		trHead.cells[i].addEventListener('click', (e)=>{
+		let datos = [];
+		ordenar(personas, e.target.innerHTML.toLowerCase())
+		actualizarTabla();
+		});
+	}
+
+//Funciones
+	function crearTabla(){
+	const headers = ['ID', 'Nombre', 'Apellido', 'Edad', 'AlterEgo', 'Ciudad', 'Publicado', 'Enemigo', 'Robos', 'Asesinatos'];
+	
+	headers.forEach((h)=>{
+		const th = document.createElement('th');
+		const texto = document.createTextNode(h);
+		th.appendChild(texto);
+		trHead.appendChild(th);
+	}) 
+	tHead.appendChild(trHead);
+	tabla.appendChild(tHead);
+	tabla.appendChild(tBody);
+	document.getElementById('div-table').appendChild(tabla);
+	}
+	
+	function cargarDatosForm(e){
+		vaciarForm(form_abm);
+		btnAlta.style.display = 'none';
+		btnModificar.style.display = '';
+		btnEliminar.style.display = '';
+		div_formabm.style.display = 'block';
+		form_datos.style.display = 'none';
+		let persona = getPersonaByID(e.target.parentElement.cells[0].innerHTML);
+		select_tipo.disabled = true;
+		if(persona instanceof Heroe){
+			select_tipo.value = 'Heroe';
+			input_alterEgo.value = persona.alterego;
+			input_publicado.value = persona.publicado;
+			input_ciudad.value = persona.ciudad;	
+		}
+		else{
+			select_tipo.value = 'Villano';
+			input_enemigo.value = persona.enemigo;
+			input_robos.value = persona.robos;
+			input_asesinatos.value = persona.asesinatos;	
+		}
+		
+		input_id.value = persona.id;
+		input_nombre.value = persona.nombre;
+		input_nombre.disabled = false;
+		input_apellido.value = persona.apellido;
+		input_apellido.disabled = false;
+		input_edad.value= persona.edad;
+		input_edad.disabled= false;
+		modelarFormABM(select_tipo.value);
+
+
+		
+	}
+
+	function llenarTabla(item){
+			const tr = document.createElement('tr');
+			for (let i = 0; i<trHead.cells.length; i++) {
+				const td = document.createElement('td');
+				td.style.display = trHead.cells[i].style.display;
+				if(item[trHead.cells[i].innerHTML.toLowerCase()]){
+					td.appendChild(document.createTextNode(item[trHead.cells[i].innerHTML.toLowerCase()]));
+				}
+				else{
+					td.appendChild(document.createTextNode('--'));
+				}
+					tr.appendChild(td);	
+					td.addEventListener('dblclick', cargarDatosForm);
+				if(item instanceof Heroe && select_tipopersona.value == 'Villano'){
+					tr.style.display = 'none';
+				}
+				else if(item instanceof Villano && select_tipopersona.value == 'Heroe'){
+					tr.style.display = 'none';
+
+				}
+			}
+		tBody.appendChild(tr);
+	}
+
+	function filtrarTabla(idsABorrar, idsAMostrar){
+		let rows = tBody.rows;
+		for(let i=0; i<rows.length; i++){
+			idsABorrar.forEach((id)=>{
+				if(rows[i].cells[0].innerHTML == id){
+					rows[i].style.display = 'none';
+				}
+			});
+
+		}
+		for(let i=0; i<rows.length; i++){
+			idsAMostrar.forEach((id)=>{
+				if(rows[i].cells[0].innerHTML == id){
+					rows[i].style.display = '';
+				}
+			});
+		}
+	}
+
+	function buscarColummnaSeleccionada(nombre, row){
+		for(let i=0; i<row.cells.length; i++){
+			if(row.cells[i].innerHTML.toLowerCase() == nombre.toLowerCase()){
+				return i;
+			}
+		}
+		return false;
+
+	}
+
+	function getPersonaByID(id){
+		for (let i =0; i<personas.length; i++) {
+			if(personas[i].id == id){
+				return personas[i];
+			}
+		}
+		return false;
+	}
+
+	function actualizarTabla(){
+		while(tBody.rows.length > 0) {
+	  		tBody.deleteRow(tBody.rows.length -1);
+		}
+		personas.forEach((p)=>{
+			llenarTabla(p);
+		});
+	}
+
+	function vaciarForm(form){
+		for (let i=0; i<form.elements.length; i++) {
+			form.elements[i].value = '';
+			if(form.elements[i].type != 'select-one' && form.elements[i].type != 'submit')
+				form.elements[i].disabled = true;
+			else
+				form.elements[i].disabled = false;
+		}
+	}
+
+	function validarCampos(form){
+		for (let i=0; i<form.elements.length; i++) {
+			if(form.elements[i].type == 'text' && !form.elements[i].disabled){
+				if(form.elements[i].value != ''){
+				switch(form.elements[i].id){
+				case 'input-nombre':	
+				case 'input-apellido':
+				case 'input_alterEgo':
+				case 'input_ciudad':
+				case 'input_enemigo':
+					if(!isNaN(form.elements[i].value) || form.elements[i].value.trim() == '') return false;  
+					break;
+				case 'input-edad':
+				case 'input-robos':
+				case 'input_asesinatos':
+					if(isNaN(form.elements[i].value) || form.elements[i].value%1 != 0 || form.elements[i].value<0) return false;
+					break;
+				case 'input-publicado':
+					if(isNaN(form.elements[i].value) || form.elements[i].value%1 != 0 || form.elements[i].value<0 || form.elements[i].value <1940) return false;
+					break;
+				}
+				}
+				else{
+					return false;
+				}
+			}
+			else if(form.elements[i].type == 'select-one' && form.elements[i].value == '') return false;
+		}
+		return true;
+	}
+
+	function ordenar(datos, campo){
+
+		if(!ordenamiento){
+			ordenamiento = 1;
+			datos.sort((a,b)=>{
+				if(a[campo]>b[campo] || b[campo] == undefined){
+					return 1;
+				}
+				else if(a[campo]<b[campo] || a[campo]==undefined){
+					return -1;
+				}
+				else{
+					return 0;
+				}
+			}); 			
+		}
+		else{
+			ordenamiento = 0;
+			datos.sort((a,b)=>{
+
+			if(a[campo]<b[campo] || a[campo] == undefined){
+				return 1;
+			}
+			else if(a[campo]>b[campo] || b[campo] == undefined){
+				return -1;
+			}
+			else{
+				return 0;
+			}
+			}); 	
+		} 
+	}
+
+//Eventos
+	document.getElementById('select-tipopersona').addEventListener('change', ()=>{
+		let valor = document.querySelector('select').value;
+		let idsABorrar = [];
+		let idsAMostrar = personas.map((p)=>{
+							return p.id;				
+						});
+			if(valor == 'Heroe'){
+				idsABorrar = personas.map((p)=>{
+					if(p instanceof Heroe == false){
+						return p.id;
+					}
+				});
+				idsAMostrar = personas.map((p)=>{
+					if(p instanceof Heroe){
+						return p.id;
+					}
+				}); 	
+			}
+			else if(valor == 'Villano'){
+				idsABorrar = personas.map((p)=>{
+					if(p instanceof Villano == false){
+						return p.id;
+					}
+				});
+				idsAMostrar = personas.map((p)=>{
+					if(p instanceof Villano){
+						return p.id;
+					}
+				});
+
+			}
+			filtrarTabla(idsABorrar, idsAMostrar);
+		}
+	);
+
+	btnCalcular.addEventListener('click', (e)=>{
+		e.preventDefault();
+		let ids = [];
+		let rows= tBody.rows;
+		for(let i=0; i<rows.length; i++){
+			if(rows[i].style.display != 'none'){
+				ids.push(rows[i].cells[0].innerHTML);
+			}
+		}
+		
+		let personasFiltradas = personas.filter((p)=>{
+			for(let i=0; i<ids.length; i++){
+				if(ids[i] ==  p.id){
+					return true;
+				}
+			}
+		});
+		let suma = personasFiltradas.reduce((valorAnterior, elemento)=>{
+			return valorAnterior + parseInt(elemento.edad);
+		},0);
+
+		document.getElementById('input-promedio').value = suma / personasFiltradas.length;
+		  
+	});
+
+	document.getElementById('btn-agregar').addEventListener('click', (e)=>{
+		vaciarForm(form_abm);
+		modelarFormABM(null);
+		btnAlta.style.display = '';
+		btnModificar.style.display = 'none';
+		btnEliminar.style.display = 'none';
+		btnCancelar.style.display = '';
+		form_datos.style.display = 'none';
+		div_formabm.style.display = 'block';
+		e.target.style.display = 'none';
+	});
+
+	document.getElementById('btn-cancelar').addEventListener('click',(e)=>{
+		e.preventDefault();
+		form_datos.style.display = '';
+		document.getElementById('form-datos').style.display = '';
+		div_formabm.style.display = 'none';
+		document.getElementById('btn-agregar').style.display = '';
+		vaciarForm(form_abm);
+
+	})
+
+	document.getElementById('btn-alta').addEventListener('click', (e)=>{
+		//e.preventDefault();
+			if(validarCampos(form_abm)){
+				ordenamiento = 0;
+				ordenar(personas, 'id');
+				id = parseInt(personas.reduce((ant, act)=>{
+					return act.id;
+				})) + 1;					
+	 		if(select_tipo.value == 'Heroe'){
+	 			persona = new Heroe(id, input_nombre.value, input_apellido.value,input_edad.value, input_alterEgo.value, input_ciudad.value, input_publicado.value);
+	 		}
+	 		else if(select_tipo.value == 'Villano'){
+	 			persona = new Villano(id, input_nombre.value, input_apellido.value,input_edad.value, input_enemigo.value, input_robos.value, input_asesinatos.value);
+	 		}
+	 		personas.push(persona);
+	 	
+			actualizarTabla();
+			div_formabm.style.display = 'none';
+			form_datos.style.display = '';
+			vaciarForm(form_abm);
+			document.getElementById('btn-agregar').style.display = '';
+		}
+		else{
+			alert('Algun dato no es valido o esta incompleto');
+		}
+	});
+
+	document.getElementById('btn-modificar').addEventListener('click', (e)=>{
+	//e.preventDefault();
+		if(validarCampos(form_abm)){
+		 	let persona = getPersonaByID(input_id.value);
+		 	if(persona){	 		
+		 	persona.nombre = input_nombre.value;
+		 	persona.edad = input_edad.value;
+		 	persona.apellido = input_apellido.value;
+		 		if(persona instanceof Heroe){
+		 			persona.alterego = input_alterEgo.value;
+		 			persona.ciudad = input_ciudad.value;
+		 			persona.publicado = input_publicado.value;
+		 		}
+		 		else{
+		 			persona.enemigo = input_enemigo.value;
+		 			persona.robos = input_robos.value;
+		 			persona.asesinatos = input_asesinatos.value;
+		 		}
+		 	vaciarForm(form_abm);
+		 	}
+		 	else{
+				alert("ERROR");
+		 	}
+
+		actualizarTabla();
+		div_formabm.style.display = 'none';
+		form_datos.style.display = '';
+		vaciarForm(form_abm);
+		document.getElementById('btn-agregar').style.display = '';
+	}
+	else{
+		alert('Algun dato no es valido o esta incompleto');
+	}
+	});
+
+	document.getElementById('btn-eliminar').addEventListener('click', ()=>{
+		let persona = getPersonaByID(input_id.value);
+		let indice = -1;
+		for(let i=0;i<personas.length;i++){
+			if(personas[i] == persona){
+				indice = i;
+			}
+		}
+
+		personas.splice(indice,1);
+		actualizarTabla();
+		vaciarForm(form_abm);
+		div_formabm.style.display = 'none';
+		btnEliminar.style.display = 'none';
+		btnModificar.style.display = 'none';
+		btnCancelar.style.display = 'none';
+		btnAgregar.style.display = '';
+		form_datos.style.display = '';
+
+	});
+
+	document.getElementById('select-tipo').addEventListener('change', (e)=>{
+	 	input_nombre.disabled = false;
+	 	input_apellido.disabled = false;
+	 	input_edad.disabled = false;
+	 	modelarFormABM(e.target.value);
+	 	switch(e.target.value){
+	 	case 'Heroe':
+	 		input_alterEgo.disabled = false;
+	 		input_ciudad.disabled = false;
+	 		input_publicado.disabled = false;
+	 		input_enemigo.disabled = true;
+	 		input_robos.disabled = true;
+	 		input_asesinatos.disabled = true;
+	 		break;
+	 	case 'Villano':
+	 		input_enemigo.disabled = false;
+	 		input_robos.disabled = false;
+	 		input_asesinatos.disabled = false;
+	 		input_alterEgo.disabled = true;
+	 		input_ciudad.disabled = true;
+	 		input_publicado.disabled = true;
+	 		break;
+	 	default:
+	 		vaciarForm(form_abm);
+	 		break;
+	 	} 	
+	 });
+
+	function modelarFormABM(tipo){
+		if(tipo == 'Heroe'){
+			input_alterEgo.disabled = false;
+			input_ciudad.disabled = false;		
+			input_publicado.disabled = false;
+			input_enemigo.style.display = 'none';
+			input_robos.style.display = 'none';
+			input_asesinatos.style.display = 'none';
+			input_alterEgo.style.display = '';
+			input_ciudad.style.display = '';
+			input_publicado.style.display = '';
+			lbl_enemigo.style.display = 'none';
+			lbl_robos.style.display = 'none';
+			lbl_asesinatos.style.display = 'none';
+			lbl_alterEgo.style.display = '';
+			lbl_ciudad.style.display = '';
+			lbl_publicado.style.display = '';
+		}
+		else if(tipo == 'Villano'){
+			
+			input_enemigo.disabled = false;
+			input_robos.disabled = false;	
+			input_asesinatos.disabled = false;
+			input_alterEgo.style.display = 'none';
+			input_ciudad.style.display = 'none';
+			input_publicado.style.display = 'none';
+			input_enemigo.style.display = '';
+			input_robos.style.display = '';
+			input_asesinatos.style.display = '';
+			lbl_alterEgo.style.display = 'none';
+			lbl_ciudad.style.display = 'none';
+			lbl_publicado.style.display = 'none';
+			lbl_enemigo.style.display = '';
+			lbl_robos.style.display = '';
+			lbl_asesinatos.style.display = '';
+		}
+		else if(tipo == null){
+			
+			input_alterEgo.style.display = 'none';
+			input_ciudad.style.display = 'none';
+			input_publicado.style.display = 'none';
+			input_enemigo.style.display = 'none';
+			input_robos.style.display = 'none';
+			input_asesinatos.style.display = 'none';
+			lbl_alterEgo.style.display = 'none';
+			lbl_ciudad.style.display = 'none';
+			lbl_publicado.style.display = 'none';
+			lbl_enemigo.style.display = 'none';
+			lbl_robos.style.display = 'none';
+			lbl_asesinatos.style.display = 'none';
+			input_enemigo.style.display = 'none';
+			input_robos.style.display = 'none';
+			input_asesinatos.style.display = 'none';
+			input_alterEgo.style.display = 'none';
+			input_ciudad.style.display = 'none';
+			input_publicado.style.display = 'none';
+			lbl_enemigo.style.display = 'none';
+			lbl_robos.style.display = 'none';
+			lbl_asesinatos.style.display = 'none';
+			lbl_alterEgo.style.display = 'none';
+			lbl_ciudad.style.display = 'none';
+			lbl_publicado.style.display = 'none';
+		}
+	}
+
+
+
+	</script>
+    
+</body>
+</html>
